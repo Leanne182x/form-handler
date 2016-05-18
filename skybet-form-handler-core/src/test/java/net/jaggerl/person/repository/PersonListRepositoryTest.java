@@ -1,5 +1,7 @@
-package net.jaggerl.person;
+package net.jaggerl.person.repository;
 
+import net.jaggerl.person.model.Person;
+import net.jaggerl.person.TestPeople;
 import org.junit.Before;
 import org.junit.Test;
 

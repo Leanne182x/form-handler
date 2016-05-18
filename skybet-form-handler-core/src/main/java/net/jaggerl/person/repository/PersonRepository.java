@@ -1,4 +1,6 @@
-package net.jaggerl.person;
+package net.jaggerl.person.repository;
+
+import net.jaggerl.person.model.Person;
 
 public interface PersonRepository {
 

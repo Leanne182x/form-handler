@@ -1,4 +1,4 @@
-package net.jaggerl.person;
+package net.jaggerl.person.model;
 
 public class PersonBuilder {
 

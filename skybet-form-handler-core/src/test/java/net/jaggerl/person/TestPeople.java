@@ -1,5 +1,7 @@
 package net.jaggerl.person;
 
+import net.jaggerl.person.model.PersonBuilder;
+
 /**
  * Object mother for creating test data with the PersonBuilder
  */
