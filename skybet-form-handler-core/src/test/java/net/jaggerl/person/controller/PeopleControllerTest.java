@@ -1,6 +1,5 @@
 package net.jaggerl.person.controller;
 
-import net.jaggerl.WebAppConfig;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,27 +11,42 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = WebAppConfig.class)
 @WebAppConfiguration
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = "classpath:test-context.xml")
 public class PeopleControllerTest {
 
+    private static final String PEOPLE_URI = "/people";
+
     @Autowired
-    private WebApplicationContext context;
+    private WebApplicationContext webApplicationContext;
+
+    @Autowired
+    private PeopleService peopleServiceMock;
 
     private MockMvc mockMvc;
 
     @Before
-    public void setup() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
+    public void setUp() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 
     @Test
     public void testThatCallingPostPeopleReturnsOkStatus() throws Exception {
+        mockMvc.perform(post(PEOPLE_URI)).andExpect(status().isOk());
+    }
 
-        mockMvc.perform(post("/people")).andExpect(status().isOk());
+    @Test
+    public void testThatCallingPostPeopleInteractsWithPeopleService() throws Exception {
+        // Act
+        mockMvc.perform(post(PEOPLE_URI));
+
+        // Assert
+        verify(peopleServiceMock).savePeople(any());
     }
 }
