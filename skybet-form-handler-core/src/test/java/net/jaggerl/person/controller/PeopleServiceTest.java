@@ -2,7 +2,7 @@ package net.jaggerl.person.controller;
 
 import net.jaggerl.person.TestPeople;
 import net.jaggerl.person.model.PeopleDao;
-import net.jaggerl.person.model.Person;
+import net.jaggerl.person.model.PersonDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -26,8 +26,8 @@ public class PeopleServiceTest {
     @Test
     public void testThatSavePeopleCallsDaoStorePeople() {
         // Arrange
-        final Person person = TestPeople.aDefaultPerson().build();
-        final List<Person> people = Collections.singletonList(person);
+        final PersonDto person = TestPeople.getDefaultPersonDto();
+        final List<PersonDto> people = Collections.singletonList(person);
 
         // Act
         peopleService.savePeople(people);

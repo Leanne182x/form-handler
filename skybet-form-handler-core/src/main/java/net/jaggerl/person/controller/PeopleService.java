@@ -1,7 +1,7 @@
 package net.jaggerl.person.controller;
 
 import net.jaggerl.person.model.PeopleDao;
-import net.jaggerl.person.model.Person;
+import net.jaggerl.person.model.PersonDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +17,7 @@ public class PeopleService {
         this.peopleDao = peopleDao;
     }
 
-    public void savePeople(List<Person> people) {
+    public void savePeople(final List<PersonDto> people) {
         peopleDao.storePeople(people);
     }
 }

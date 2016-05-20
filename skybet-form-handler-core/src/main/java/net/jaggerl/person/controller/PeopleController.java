@@ -1,12 +1,13 @@
 package net.jaggerl.person.controller;
 
+import net.jaggerl.person.model.PersonDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.ArrayList;
+
+@RestController
+@RequestMapping(value = "/people")
 public class PeopleController {
 
     private final PeopleService peopleService;
@@ -16,9 +17,9 @@ public class PeopleController {
         this.peopleService = peopleService;
     }
 
-    @RequestMapping(value = "/people", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public void postPeople() {
-        peopleService.savePeople(null);
+    public void postPeople(@RequestBody ArrayList<PersonDto> people) {
+        peopleService.savePeople(people);
     }
 }

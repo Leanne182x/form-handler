@@ -5,10 +5,13 @@ import net.jaggerl.person.repository.PersonListRepository;
 import net.jaggerl.person.repository.PersonRepository;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 import java.util.Collections;
 
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
 
 public class PeopleDaoTest {
@@ -23,14 +26,17 @@ public class PeopleDaoTest {
     }
 
     @Test
-    public void testThatStorePeopleInteractsWithTheRepo() {
+    public void testThatStorePeopleStoresACorrectlyConvertedPersonInTheRepo() {
         // Arrange
-        final Person person = TestPeople.aDefaultPerson().build();
+        final PersonDto personDto = TestPeople.getDefaultPersonDto();
+        final ArgumentCaptor<Person> personArgCaptor = ArgumentCaptor.forClass(Person.class);
 
         // Act
-        peopleDao.storePeople(Collections.singletonList(person));
+        peopleDao.storePeople(Collections.singletonList(personDto));
 
         // Assert
-        verify(personRepositoryMock).store(person);
+        verify(personRepositoryMock).store(personArgCaptor.capture());
+        assertThat(personArgCaptor.getValue().getFirstname(), is(personDto.getFirstname()));
+        assertThat(personArgCaptor.getValue().getSurname(), is(personDto.getSurname()));
     }
 }
