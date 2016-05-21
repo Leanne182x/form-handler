@@ -61,4 +61,16 @@ public class PersonListRepositoryTest {
         // Assert
         assertThat(people.size(), is(3));
     }
+
+    @Test
+    public void testThatUpdatePersonDoesNotAddANewRecord() {
+        // Arrange
+        personRepo.store(TestPeople.aDefaultPerson().build());
+
+        // Act
+        personRepo.updatePerson(TestPeople.aDefaultPersonWithANewSurname().build());
+
+        // Assert
+        assertThat(personRepo.getNumberOfPeople(), is(1));
+    }
 }

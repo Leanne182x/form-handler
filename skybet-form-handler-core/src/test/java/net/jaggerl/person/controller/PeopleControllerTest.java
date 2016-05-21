@@ -10,6 +10,7 @@ import org.mockito.Captor;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -28,11 +29,13 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:test-context.xml")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class PeopleControllerTest {
 
     private static final String PEOPLE_URI = "/people";
@@ -57,7 +60,7 @@ public class PeopleControllerTest {
     @Test
     public void testThatCallingPostPeopleReturnsOkStatus() throws Exception {
         // Arrange
-        final String jsonRequestBody = getJsonStringForDefaultTestPerson();
+        final String jsonRequestBody = getJsonListStringForDefaultTestPerson();
 
         // Act/Assert
         mockMvc.perform(post(PEOPLE_URI)
@@ -69,7 +72,7 @@ public class PeopleControllerTest {
     @Test
     public void testThatCallingPostPeopleSendsTheCorrectPersonObjectToTheService() throws Exception {
         // Arrange
-        final String jsonRequestBody = getJsonStringForDefaultTestPerson();
+        final String jsonRequestBody = getJsonListStringForDefaultTestPerson();
 
         // Act
         mockMvc.perform(post(PEOPLE_URI)
@@ -87,7 +90,7 @@ public class PeopleControllerTest {
     public void testThatCallingGetPeopleReturnsJsonResponse() throws Exception {
         // Arrange
         final List<PersonDto> people = Collections.singletonList(TestPeople.getDefaultPersonDto());
-        final String expectedJsonResponse = getJsonStringForDefaultTestPerson();
+        final String expectedJsonResponse = getJsonListStringForDefaultTestPerson();
 
         when(peopleServiceMock.getPeople()).thenReturn(people);
 
@@ -101,7 +104,41 @@ public class PeopleControllerTest {
         assertThat(mvcResult.getResponse().getContentAsString(), is(expectedJsonResponse));
     }
 
+    @Test
+    public void testThatUpdatePersonReturnsOkStatus() throws Exception {
+        // Arrange
+        final String jsonRequestBody = getJsonStringForDefaultTestPerson();
+
+        // Act/Assert
+        mockMvc.perform(put(PEOPLE_URI + "/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonRequestBody))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testThatCallingPutPeopleSendsTheCorrectPersonObjectToTheService() throws Exception {
+        // Arrange
+        final String jsonRequestBody = getJsonStringForDefaultTestPerson();
+        final ArgumentCaptor<PersonDto> personDtoArgCaptor = ArgumentCaptor.forClass(PersonDto.class);
+
+        // Act
+        mockMvc.perform(put(PEOPLE_URI + "/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonRequestBody));
+
+        // Assert
+        verify(peopleServiceMock).updatePerson(personDtoArgCaptor.capture());
+        final PersonDto person = personDtoArgCaptor.getValue();
+        assertThat(person.getFirstname(), is(TestPeople.DEFAULT_PERSON_FIRST_NAME));
+        assertThat(person.getSurname(), is(TestPeople.DEFAULT_PERSON_SURNAME));
+    }
+
+    private String getJsonListStringForDefaultTestPerson() {
+        return "[" + getJsonStringForDefaultTestPerson() + "]";
+    }
+
     private String getJsonStringForDefaultTestPerson() {
-        return "[{\"firstname\":\"" + TestPeople.DEFAULT_PERSON_FIRST_NAME + "\",\"surname\":\"" + TestPeople.DEFAULT_PERSON_SURNAME +"\"}]";
+        return "{\"firstname\":\"" + TestPeople.DEFAULT_PERSON_FIRST_NAME + "\",\"surname\":\"" + TestPeople.DEFAULT_PERSON_SURNAME +"\"}";
     }
 }

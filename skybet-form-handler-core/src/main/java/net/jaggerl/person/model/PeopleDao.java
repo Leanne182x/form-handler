@@ -26,6 +26,10 @@ public class PeopleDao {
         return convertPersonListToPersonDtoList(people);
     }
 
+    public void updatePerson(final PersonDto personDto) {
+        personRepository.updatePerson(convertPersonDto(personDto));
+    }
+
     private Person convertPersonDto(final PersonDto personDto) {
         return new PersonBuilder().withFirstname(personDto.getFirstname()).withSurname(personDto.getSurname()).build();
     }

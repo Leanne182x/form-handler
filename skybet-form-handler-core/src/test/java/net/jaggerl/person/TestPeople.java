@@ -15,6 +15,10 @@ public class TestPeople {
         return new PersonBuilder().withFirstname(DEFAULT_PERSON_FIRST_NAME).withSurname(DEFAULT_PERSON_SURNAME);
     }
 
+    public static PersonBuilder aDefaultPersonWithANewSurname() {
+        return new PersonBuilder().withFirstname(DEFAULT_PERSON_FIRST_NAME).withSurname("Star");
+    }
+
     public static PersonBuilder aPersonForChris() {
         return new PersonBuilder().withFirstname("Chris").withSurname("Kamara");
     }

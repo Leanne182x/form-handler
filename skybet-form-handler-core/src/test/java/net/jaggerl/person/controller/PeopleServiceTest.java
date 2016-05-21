@@ -52,4 +52,16 @@ public class PeopleServiceTest {
         verify(peopleDao).getPeople();
         assertThat(people.size(), is(1));
     }
+
+    @Test
+    public void testThatUpdatePersonCallsDaoUpdatePerson() {
+        // Arrange
+        final PersonDto person = TestPeople.getDefaultPersonDto();
+
+        // Act
+        peopleService.updatePerson(person);
+
+        // Assert
+        verify(peopleDao).updatePerson(person);
+    }
 }

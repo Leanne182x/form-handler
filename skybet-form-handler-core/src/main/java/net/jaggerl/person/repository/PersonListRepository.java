@@ -15,11 +15,13 @@ public class PersonListRepository implements PersonRepository {
         this.personFileStore = personFileStore;
     }
 
+    @Override
     public void store(final Person person) {
         people.add(person);
         personFileStore.savePersonToFile(person);
     }
 
+    @Override
     public int getNumberOfPeople() {
         return people.size();
     }
@@ -27,5 +29,10 @@ public class PersonListRepository implements PersonRepository {
     @Override
     public List<Person> getPeople() {
         return people;
+    }
+
+    @Override
+    public void updatePerson(final Person person) {
+        // TODO would need to remove from list in memory and replace and make sure to remove from file since there's no database filestore
     }
 }

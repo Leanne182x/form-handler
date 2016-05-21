@@ -13,6 +13,7 @@ import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -57,5 +58,14 @@ public class PeopleDaoTest {
         final PersonDto firstPersonResult = people.stream().findFirst().get();
         assertThat(firstPersonResult.getFirstname(), is(defaultPerson.getFirstname()));
         assertThat(firstPersonResult.getSurname(), is(defaultPerson.getSurname()));
+    }
+
+    @Test
+    public void testThatUpdatePersonCallsRepoUpdate() {
+        // Act
+        peopleDao.updatePerson(TestPeople.getDefaultPersonDto());
+
+        // Assert
+        verify(personRepositoryMock).updatePerson(any(Person.class));
     }
 }

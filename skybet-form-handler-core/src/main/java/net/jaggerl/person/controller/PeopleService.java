@@ -24,4 +24,8 @@ public class PeopleService {
     public List<PersonDto> getPeople() {
         return peopleDao.getPeople();
     }
+
+    public void updatePerson(final PersonDto person) {
+        peopleDao.updatePerson(person);
+    }
 }

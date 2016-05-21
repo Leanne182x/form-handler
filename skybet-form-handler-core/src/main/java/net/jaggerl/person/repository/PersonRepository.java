@@ -9,4 +9,5 @@ public interface PersonRepository {
     void store(Person person);
     int getNumberOfPeople();
     List<Person> getPeople();
+    void updatePerson(Person person);
 }
