@@ -9,10 +9,12 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 import java.util.Collections;
+import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class PeopleDaoTest {
 
@@ -38,5 +40,22 @@ public class PeopleDaoTest {
         verify(personRepositoryMock).store(personArgCaptor.capture());
         assertThat(personArgCaptor.getValue().getFirstname(), is(personDto.getFirstname()));
         assertThat(personArgCaptor.getValue().getSurname(), is(personDto.getSurname()));
+    }
+
+    @Test
+    public void testThatGetPeopleReturnsCorrectlyConvertedPersonDtos() {
+        // Arrange
+        final Person defaultPerson = TestPeople.aDefaultPerson().build();
+        final List<Person> peopleReturnedFromRepo = Collections.singletonList(defaultPerson);
+        when(personRepositoryMock.getPeople()).thenReturn(peopleReturnedFromRepo);
+
+        // Act
+        final List<PersonDto> people = peopleDao.getPeople();
+
+        // Assert
+        verify(personRepositoryMock).getPeople();
+        final PersonDto firstPersonResult = people.stream().findFirst().get();
+        assertThat(firstPersonResult.getFirstname(), is(defaultPerson.getFirstname()));
+        assertThat(firstPersonResult.getSurname(), is(defaultPerson.getSurname()));
     }
 }

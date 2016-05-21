@@ -14,14 +14,19 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -76,6 +81,24 @@ public class PeopleControllerTest {
         PersonDto firstPerson = peopleArgCaptor.getValue().stream().findFirst().get();
         assertThat(firstPerson.getFirstname(), is(TestPeople.DEFAULT_PERSON_FIRST_NAME));
         assertThat(firstPerson.getSurname(), is(TestPeople.DEFAULT_PERSON_SURNAME));
+    }
+
+    @Test
+    public void testThatCallingGetPeopleReturnsJsonResponse() throws Exception {
+        // Arrange
+        final List<PersonDto> people = Collections.singletonList(TestPeople.getDefaultPersonDto());
+        final String expectedJsonResponse = getJsonStringForDefaultTestPerson();
+
+        when(peopleServiceMock.getPeople()).thenReturn(people);
+
+        // Act
+        final MvcResult mvcResult = mockMvc.perform(get(PEOPLE_URI))
+                                            .andExpect(status().isOk())
+                                            .andReturn();
+
+        // Assert
+        verify(peopleServiceMock).getPeople();
+        assertThat(mvcResult.getResponse().getContentAsString(), is(expectedJsonResponse));
     }
 
     private String getJsonStringForDefaultTestPerson() {

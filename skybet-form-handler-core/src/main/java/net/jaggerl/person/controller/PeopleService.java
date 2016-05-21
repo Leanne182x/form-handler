@@ -20,4 +20,8 @@ public class PeopleService {
     public void savePeople(final List<PersonDto> people) {
         peopleDao.storePeople(people);
     }
+
+    public List<PersonDto> getPeople() {
+        return peopleDao.getPeople();
+    }
 }

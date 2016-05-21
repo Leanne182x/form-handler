@@ -10,7 +10,10 @@ import org.mockito.Mockito;
 import java.util.Collections;
 import java.util.List;
 
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class PeopleServiceTest {
 
@@ -34,5 +37,19 @@ public class PeopleServiceTest {
 
         // Assert
         verify(peopleDao).storePeople(people);
+    }
+
+    @Test
+    public void testThatGetPeopleReturnsPeopleFromTheDao() {
+        // Arrange
+        final PersonDto person = TestPeople.getDefaultPersonDto();
+        when(peopleDao.getPeople()).thenReturn(Collections.singletonList(person));
+
+        // Act
+        final List<PersonDto> people = peopleService.getPeople();
+
+        // Assert
+        verify(peopleDao).getPeople();
+        assertThat(people.size(), is(1));
     }
 }

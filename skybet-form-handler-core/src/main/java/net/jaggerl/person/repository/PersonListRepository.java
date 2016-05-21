@@ -23,4 +23,9 @@ public class PersonListRepository implements PersonRepository {
     public int getNumberOfPeople() {
         return people.size();
     }
+
+    @Override
+    public List<Person> getPeople() {
+        return people;
+    }
 }

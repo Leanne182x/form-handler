@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/people")
@@ -21,5 +22,11 @@ public class PeopleController {
     @ResponseBody
     public void postPeople(@RequestBody ArrayList<PersonDto> people) {
         peopleService.savePeople(people);
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    @ResponseBody
+    public List<PersonDto> getPeople() {
+        return peopleService.getPeople();
     }
 }

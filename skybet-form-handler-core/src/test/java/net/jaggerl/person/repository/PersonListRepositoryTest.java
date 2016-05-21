@@ -7,6 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import java.util.List;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.verify;
@@ -44,5 +46,19 @@ public class PersonListRepositoryTest {
 
         // Assert
         verify(personFileStore).savePersonToFile(defaultPerson);
+    }
+
+    @Test
+    public void testGetPeopleReturnsAllPersonRecords() {
+        // Arrange
+        personRepo.store(TestPeople.aDefaultPerson().build());
+        personRepo.store(TestPeople.aPersonForChris().build());
+        personRepo.store(TestPeople.aPersonForAlex().build());
+
+        // Act
+        final List<Person> people = personRepo.getPeople();
+
+        // Assert
+        assertThat(people.size(), is(3));
     }
 }
