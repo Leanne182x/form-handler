@@ -1,6 +1,8 @@
 package net.jaggerl.person.model;
 
-public class PersonDto {
+import java.io.Serializable;
+
+public class PersonDto implements Serializable {
     private String firstname;
     private String surname;
 

@@ -2,15 +2,19 @@ package net.jaggerl.person.repository;
 
 import net.jaggerl.person.io.PersonStore;
 import net.jaggerl.person.model.Person;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class PersonListRepository implements PersonRepository {
 
     private final List<Person> people = new ArrayList<>();
     private final PersonStore personStore;
 
+    @Autowired
     public PersonListRepository(final PersonStore personStore) {
         this.personStore = personStore;
     }
