@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
-import java.io.FileWriter;
+import java.io.BufferedWriter;
 import java.io.IOException;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -17,11 +17,11 @@ import static org.mockito.Mockito.verify;
 public class PersonCSVFileStoreTest {
 
     private PersonStore personCSVFileStore;
-    private FileWriter fileWriter;
+    private BufferedWriter fileWriter;
 
     @Before
     public void setUp() {
-        fileWriter = Mockito.mock(FileWriter.class);
+        fileWriter = Mockito.mock(BufferedWriter.class);
         personCSVFileStore = new PersonCsvFileStore(fileWriter);
     }
 
@@ -30,13 +30,13 @@ public class PersonCSVFileStoreTest {
         // Arrange
         final Person person = TestPeople.aDefaultPerson().build();
         final ArgumentCaptor<String> fileContentCaptor = ArgumentCaptor.forClass(String.class);
-        final String expectedFileString = TestPeople.DEFAULT_PERSON_FIRST_NAME + ", " + TestPeople.DEFAULT_PERSON_SURNAME;
+        final String expectedFileString = "0, " + TestPeople.DEFAULT_PERSON_FIRST_NAME + ", " + TestPeople.DEFAULT_PERSON_SURNAME;
 
         // Act
         personCSVFileStore.savePerson(person);
 
         // Assert
-        verify(fileWriter).append(fileContentCaptor.capture());
+        verify(fileWriter).write(fileContentCaptor.capture());
         assertThat(fileContentCaptor.getValue(), is(expectedFileString));
     }
 }

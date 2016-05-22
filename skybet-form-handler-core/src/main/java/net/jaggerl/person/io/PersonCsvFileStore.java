@@ -3,30 +3,33 @@ package net.jaggerl.person.io;
 import net.jaggerl.person.model.Person;
 import org.springframework.stereotype.Component;
 
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
 @Component
 public class PersonCsvFileStore implements PersonStore {
 
-    private static final String FILENAME = "personStore.csv"; // TODO-LJ this would usually be defined from a property file
+    // TODO-LJ this would usually be defined from a property file. Stored in a target directory meaning a new build will wipe it
+    private static final String FILENAME = "target/personStore.csv";
 
-    private final FileWriter fileWriter;
+    private final BufferedWriter bufferedWriter;
 
     public PersonCsvFileStore() throws IOException {
-        fileWriter = new FileWriter(FILENAME, true);
+        bufferedWriter = new BufferedWriter(new FileWriter(FILENAME, true));
     }
 
-    public PersonCsvFileStore(final FileWriter fileWriter) {
-        this.fileWriter = fileWriter;
+    public PersonCsvFileStore(final BufferedWriter bufferedWriter) {
+        this.bufferedWriter = bufferedWriter;
     }
 
     @Override
     public void savePerson(final Person person) {
         try {
-            fileWriter.append(person.toString());
+            bufferedWriter.write(person.toString());
+            bufferedWriter.flush();
         } catch (IOException e) {
-            e.printStackTrace(); // TODO-LJ implement logging
+            e.printStackTrace(); // TODO-LJ implement logging, e.g. log4j/slf4j
         }
     }
 }
