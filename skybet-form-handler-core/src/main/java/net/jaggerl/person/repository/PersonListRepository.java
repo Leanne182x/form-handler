@@ -9,7 +9,7 @@ import java.util.List;
 public class PersonListRepository implements PersonRepository {
 
     private final List<Person> people = new ArrayList<>();
-    private PersonStore personStore;
+    private final PersonStore personStore;
 
     public PersonListRepository(final PersonStore personStore) {
         this.personStore = personStore;
@@ -32,7 +32,10 @@ public class PersonListRepository implements PersonRepository {
     }
 
     @Override
-    public void updatePerson(final Person person) {
-        // TODO would need to remove from list in memory and replace and make sure to remove from file since there's no database filestore
+    public void updatePerson(int personId, final Person person) {
+        // TODO would also need to call the PersonStore to update the file since there's no database store.
+        // At the moment a reboot would mean both the old and new update records would be in the file
+        people.removeIf(storedPerson -> storedPerson.getId() == personId);
+        store(person);
     }
 }

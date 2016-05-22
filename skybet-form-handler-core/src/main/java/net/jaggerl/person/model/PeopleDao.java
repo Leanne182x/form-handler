@@ -26,8 +26,8 @@ public class PeopleDao {
         return convertPersonListToPersonDtoList(people);
     }
 
-    public void updatePerson(final PersonDto personDto) {
-        personRepository.updatePerson(convertPersonDto(personDto));
+    public void updatePerson(final int personId, final PersonDto personDto) {
+        personRepository.updatePerson(personId, convertPersonDto(personDto));
     }
 
     private Person convertPersonDto(final PersonDto personDto) {

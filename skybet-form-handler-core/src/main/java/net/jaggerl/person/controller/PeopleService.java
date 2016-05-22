@@ -25,7 +25,11 @@ public class PeopleService {
         return peopleDao.getPeople();
     }
 
-    public void updatePerson(final PersonDto person) {
-        peopleDao.updatePerson(person);
+    /**
+     * @param personId the ID of the person to be updated
+     * @param person the new person details the person should be updated with
+     */
+    public void updatePerson(int personId, final PersonDto person) {
+        peopleDao.updatePerson(personId, person);
     }
 }

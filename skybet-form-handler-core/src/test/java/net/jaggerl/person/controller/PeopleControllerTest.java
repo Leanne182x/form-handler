@@ -25,6 +25,7 @@ import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -128,7 +129,7 @@ public class PeopleControllerTest {
                 .content(jsonRequestBody));
 
         // Assert
-        verify(peopleServiceMock).updatePerson(personDtoArgCaptor.capture());
+        verify(peopleServiceMock).updatePerson(anyInt(), personDtoArgCaptor.capture());
         final PersonDto person = personDtoArgCaptor.getValue();
         assertThat(person.getFirstname(), is(TestPeople.DEFAULT_PERSON_FIRST_NAME));
         assertThat(person.getSurname(), is(TestPeople.DEFAULT_PERSON_SURNAME));

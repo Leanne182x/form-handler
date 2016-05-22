@@ -1,9 +1,20 @@
 package net.jaggerl.person.model;
 
+import net.jaggerl.person.repository.PersonIdGenerator;
+
 public class PersonBuilder {
 
+    private final PersonIdGenerator personIdGenerator;
     private String firstname;
     private String surname;
+
+    public PersonBuilder() {
+        personIdGenerator = PersonIdGenerator.getInstance();
+    }
+
+    public PersonBuilder(final PersonIdGenerator personIdGenerator) {
+        this.personIdGenerator = personIdGenerator;
+    }
 
     public PersonBuilder withFirstname(final String firstname) {
         this.firstname = firstname;
@@ -16,6 +27,7 @@ public class PersonBuilder {
     }
 
     public Person build() {
-        return new Person(firstname, surname);
+        // Typically this ID generation would be handled by the datastore implementation, etc auto incrementing IDs in JPA
+        return new Person(personIdGenerator.getNextSequence(), firstname, surname);
     }
 }

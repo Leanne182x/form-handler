@@ -65,12 +65,29 @@ public class PersonListRepositoryTest {
     @Test
     public void testThatUpdatePersonDoesNotAddANewRecord() {
         // Arrange
-        personRepo.store(TestPeople.aDefaultPerson().build());
+        final Person person = TestPeople.aDefaultPerson().build();
+        personRepo.store(person);
 
         // Act
-        personRepo.updatePerson(TestPeople.aDefaultPersonWithANewSurname().build());
+        personRepo.updatePerson(person.getId(), TestPeople.aDefaultPersonWithANewSurname().build());
 
         // Assert
         assertThat(personRepo.getNumberOfPeople(), is(1));
+    }
+
+    @Test
+    public void testThatUpdatePersonUpdatesRepoWithCorrectData() {
+        // Arrange
+        final Person defaultPerson = TestPeople.aDefaultPerson().build();
+        final Person updatedPerson = TestPeople.aDefaultPersonWithANewSurname().build();
+        personRepo.store(defaultPerson);
+
+        // Act
+        personRepo.updatePerson(defaultPerson.getId(), updatedPerson);
+
+        // Assert
+        final Person retrievedPerson = personRepo.getPeople().get(0);
+        assertThat(retrievedPerson.getFirstname(), is(updatedPerson.getFirstname()));
+        assertThat(retrievedPerson.getSurname(), is(updatedPerson.getSurname()));
     }
 }

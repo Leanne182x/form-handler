@@ -14,6 +14,7 @@ import java.util.List;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -62,10 +63,13 @@ public class PeopleDaoTest {
 
     @Test
     public void testThatUpdatePersonCallsRepoUpdate() {
+        // Arrange
+        final int personIdToUpdate = 1;
+
         // Act
-        peopleDao.updatePerson(TestPeople.getDefaultPersonDto());
+        peopleDao.updatePerson(personIdToUpdate, TestPeople.getDefaultPersonDto());
 
         // Assert
-        verify(personRepositoryMock).updatePerson(any(Person.class));
+        verify(personRepositoryMock).updatePerson(anyInt(), any(Person.class));
     }
 }

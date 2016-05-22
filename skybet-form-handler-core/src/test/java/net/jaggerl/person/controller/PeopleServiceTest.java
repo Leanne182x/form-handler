@@ -56,12 +56,13 @@ public class PeopleServiceTest {
     @Test
     public void testThatUpdatePersonCallsDaoUpdatePerson() {
         // Arrange
+        final int personIdToUpdate = 1;
         final PersonDto person = TestPeople.getDefaultPersonDto();
 
         // Act
-        peopleService.updatePerson(person);
+        peopleService.updatePerson(personIdToUpdate, person);
 
         // Assert
-        verify(peopleDao).updatePerson(person);
+        verify(peopleDao).updatePerson(personIdToUpdate, person);
     }
 }

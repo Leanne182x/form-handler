@@ -33,6 +33,6 @@ public class PeopleController {
     @RequestMapping(value = "/{personId}", method = RequestMethod.PUT)
     @ResponseBody
     public void updatePerson(@PathVariable("personId") int personId, @RequestBody PersonDto personDto) {
-        peopleService.updatePerson(personDto);
+        peopleService.updatePerson(personId, personDto);
     }
 }
