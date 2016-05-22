@@ -1,6 +1,6 @@
 package net.jaggerl.person.repository;
 
-import net.jaggerl.person.io.PersonFileStore;
+import net.jaggerl.person.io.PersonStore;
 import net.jaggerl.person.model.Person;
 
 import java.util.ArrayList;
@@ -9,16 +9,16 @@ import java.util.List;
 public class PersonListRepository implements PersonRepository {
 
     private final List<Person> people = new ArrayList<>();
-    private PersonFileStore personFileStore;
+    private PersonStore personStore;
 
-    public PersonListRepository(final PersonFileStore personFileStore) {
-        this.personFileStore = personFileStore;
+    public PersonListRepository(final PersonStore personStore) {
+        this.personStore = personStore;
     }
 
     @Override
     public void store(final Person person) {
         people.add(person);
-        personFileStore.savePersonToFile(person);
+        personStore.savePerson(person);
     }
 
     @Override

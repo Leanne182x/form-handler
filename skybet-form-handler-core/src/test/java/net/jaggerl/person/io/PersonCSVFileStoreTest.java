@@ -16,7 +16,7 @@ import static org.mockito.Mockito.verify;
 
 public class PersonCSVFileStoreTest {
 
-    private PersonFileStore personCSVFileStore;
+    private PersonStore personCSVFileStore;
     private FileWriter fileWriter;
 
     @Before
@@ -33,7 +33,7 @@ public class PersonCSVFileStoreTest {
         final String expectedFileString = TestPeople.DEFAULT_PERSON_FIRST_NAME + ", " + TestPeople.DEFAULT_PERSON_SURNAME;
 
         // Act
-        personCSVFileStore.savePersonToFile(person);
+        personCSVFileStore.savePerson(person);
 
         // Assert
         verify(fileWriter).append(fileContentCaptor.capture());

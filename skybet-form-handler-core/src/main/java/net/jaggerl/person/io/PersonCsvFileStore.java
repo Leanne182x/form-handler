@@ -5,7 +5,7 @@ import net.jaggerl.person.model.Person;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class PersonCsvFileStore implements PersonFileStore {
+public class PersonCsvFileStore implements PersonStore {
 
     private final FileWriter fileWriter;
 
@@ -14,7 +14,7 @@ public class PersonCsvFileStore implements PersonFileStore {
     }
 
     @Override
-    public void savePersonToFile(final Person person) {
+    public void savePerson(final Person person) {
         try {
             fileWriter.append(person.toString());
         } catch (IOException e) {

@@ -1,6 +1,6 @@
 package net.jaggerl.person.repository;
 
-import net.jaggerl.person.io.PersonFileStore;
+import net.jaggerl.person.io.PersonStore;
 import net.jaggerl.person.model.Person;
 import net.jaggerl.person.TestPeople;
 import org.junit.Before;
@@ -16,12 +16,12 @@ import static org.mockito.Mockito.verify;
 public class PersonListRepositoryTest {
 
     private PersonRepository personRepo;
-    private PersonFileStore personFileStore;
+    private PersonStore personStore;
 
     @Before
     public void setup() {
-        personFileStore = Mockito.mock(PersonFileStore.class);
-        personRepo = new PersonListRepository(personFileStore);
+        personStore = Mockito.mock(PersonStore.class);
+        personRepo = new PersonListRepository(personStore);
     }
 
     @Test
@@ -45,7 +45,7 @@ public class PersonListRepositoryTest {
         personRepo.store(defaultPerson);
 
         // Assert
-        verify(personFileStore).savePersonToFile(defaultPerson);
+        verify(personStore).savePerson(defaultPerson);
     }
 
     @Test
