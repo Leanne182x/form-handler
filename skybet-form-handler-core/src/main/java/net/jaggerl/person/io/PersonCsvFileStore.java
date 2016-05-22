@@ -12,6 +12,7 @@ public class PersonCsvFileStore implements PersonStore {
 
     // TODO-LJ this would usually be defined from a property file. Stored in a target directory meaning a new build will wipe it
     private static final String FILENAME = "target/personStore.csv";
+    private static final String NEWLINE = System.lineSeparator();
 
     private final BufferedWriter bufferedWriter;
 
@@ -26,7 +27,7 @@ public class PersonCsvFileStore implements PersonStore {
     @Override
     public void savePerson(final Person person) {
         try {
-            bufferedWriter.write(person.toString());
+            bufferedWriter.write(person.toString() + NEWLINE);
             bufferedWriter.flush();
         } catch (IOException e) {
             e.printStackTrace(); // TODO-LJ implement logging, e.g. log4j/slf4j
