@@ -30,7 +30,7 @@ public class PersonCSVFileStoreTest {
         // Arrange
         final Person person = TestPeople.aDefaultPerson().build();
         final ArgumentCaptor<String> fileContentCaptor = ArgumentCaptor.forClass(String.class);
-        final String expectedFileString = "0, " + TestPeople.DEFAULT_PERSON_FIRST_NAME + ", " + TestPeople.DEFAULT_PERSON_SURNAME;
+        final String expectedFileString = person.getId() + ", " + TestPeople.DEFAULT_PERSON_FIRST_NAME + ", " + TestPeople.DEFAULT_PERSON_SURNAME;
 
         // Act
         personCSVFileStore.savePerson(person);
